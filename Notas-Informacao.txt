@@ -1,0 +1,1 @@
+Exploratory Data Analysis (EDA): Involves understanding the data by summarizing its main characteristics, often using visual methods. It's an approach to analyze datasets to summarize their main characteristics, often using statistical graphics and other data visualization methods.
