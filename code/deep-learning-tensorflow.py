@@ -5,9 +5,9 @@ from tensorflow.keras.layers import Dense
 from sklearn.preprocessing import StandardScaler
 
 # Load datasets
-train_data = pd.read_csv('train.csv')
-test_data = pd.read_csv('test.csv')
-valid_data = pd.read_csv('valid.csv')
+train_data = pd.read_csv('../labelled_training_data.csv')
+test_data = pd.read_csv('../labelled_testing_data.csv')
+valid_data = pd.read_csv('../labelled_validation_data.csv')
 
 # Let's assume the last column is what we want to predict
 X_train = train_data.iloc[:, :-1]
