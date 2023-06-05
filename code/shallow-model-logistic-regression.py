@@ -5,6 +5,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import f1_score, balanced_accuracy_score, roc_auc_score, precision_recall_fscore_support
+from sklearn import metrics, linear_model
+import warnings
+warnings.filterwarnings('ignore')
 
 def prepare_dataset(df: pd.DataFrame, process_args=False) -> pd.DataFrame:
     """
@@ -116,56 +119,23 @@ y_pred= clf.predict(val_df_feats)
 y_probas = clf.score_samples(val_df_feats)
 metric_printer(val_df_labels, y_pred)
 
+print(" ")
+
 y_pred= clf.predict(test_df_feats)
 y_probas = clf.score_samples(test_df_feats)
 metric_printer(test_df_labels, y_pred)
 
-# Print all columns types
-# print(train_data.dtypes)
+print(" ")
 
-# print(train_data.head())
+train_non_outliers = train_df_feats[train_df_labels==0]
+clf = linear_model.SGDOneClassSVM(random_state=0).fit(train_non_outliers)
 
-# print(train_data.describe(include=['object', 'float', 'int']))
+print(" ")
 
-# Let's assume the last column is what we want to predict
-# X_train = train_data.iloc[:, :-1]
-# y_train = train_data.iloc[:, -1]
+y_preds = clf.predict(val_df_feats)
+metric_printer(val_df_labels, y_preds)
 
-# X_test = test_data.iloc[:, :-1]
-# y_test = test_data.iloc[:, -1]
+print(" ")
 
-# X_valid = valid_data.iloc[:, :-1]
-# y_valid = valid_data.iloc[:, -1]
-
-# # data[['Power']] = scaler_y.fit_transform(data[['Power']])
-# # data[['Occupation']] = scaler_X.fit_transform(data[['Occupation']])
-
-# # Preprocess data
-# scaler = StandardScaler()
-# # print(X_train)
-# print(X_train)
-
-# X_train = scaler.fit_transform(X_train)
-# X_test = scaler.transform(X_test)
-# X_valid = scaler.transform(X_valid)
-
-# print(X_train[['sus']])
-# print(y_train)
-
-# y_train = scaler.fit_transform(y_train[['evil']])
-# y_test = scaler.transform(y_test[['evil']])
-# y_valid = scaler.transform(y_valid[['evil']])
-
-
-
-# # Train model
-# model = LogisticRegression()
-# model.fit(X_train, y_train)
-
-# # Validate model
-# accuracy = model.score(X_valid, y_valid)
-# print(f'Validation Accuracy: {accuracy*100:.2f}%')
-
-# # Test model
-# accuracy = model.score(X_test, y_test)
-# print(f'Test Accuracy: {accuracy*100:.2f}%')
+y_preds = clf.predict(test_df_feats)
+metric_printer(test_df_labels, y_preds)
