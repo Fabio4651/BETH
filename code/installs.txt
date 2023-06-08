@@ -6,3 +6,4 @@ python3 -m pip install keras
 python3 -m pip install tensorflow
 python3 -m pip install scikeras
 python3 -m pip install seaborn
+python3 -m pip install umap-learn

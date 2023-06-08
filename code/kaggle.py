@@ -22,19 +22,21 @@ from torch.utils.data import TensorDataset, DataLoader
 
 import warnings
 warnings.filterwarnings('ignore')
+import sys
 
 # Load datasets
-train_data = pd.read_csv('../../labelled_training_data.csv')
-test_data = pd.read_csv('../../labelled_testing_data.csv')
-valid_data = pd.read_csv('../../labelled_validation_data.csv')
+train_data = pd.read_csv('../labelled_training_data.csv')
+test_data = pd.read_csv('../labelled_testing_data.csv')
+valid_data = pd.read_csv('../labelled_validation_data.csv')
 
 # Validate if all datasets have the same columns
 assert train_data.columns.all() == test_data.columns.all() == valid_data.columns.all()
 
 # Print all columns types
-#print(train_data.dtypes)
-#print(train_data.head())
-#print(train_data.describe(include=['object', 'float', 'int']))
+print(train_data.dtypes)
+print(train_data.head())
+print(train_data.describe(include=['object', 'float', 'int']))
+sys.exit()
 
 # Train Plot
 #train_data.evil.value_counts().plot(kind='bar', title='Label Frequency for evil label in Train Dataset')
