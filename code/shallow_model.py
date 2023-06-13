@@ -95,15 +95,15 @@ test_mse = mean_squared_error(y_test, y_test_pred)
 
 # Plot same as figure 2.2 form papper
 # Assuming 'timestamp' is the column representing seconds from boot
-#timestamps = test_data['timestamp']
+timestamps = test_data['timestamp']
 # Set the number of bins for your histogram
-#bins = int(max(timestamps) - min(timestamps))
-#plt.figure(figsize=(10, 6))
-#plt.hist(timestamps, bins=bins, edgecolor='black')
-#plt.title('Timeline of Events')
-#plt.xlabel('Timestamp (Seconds from Boot)')
-#plt.ylabel('Number of Events')
-#plt.show()
+bins = int(max(timestamps) - min(timestamps))
+plt.figure(figsize=(10, 6))
+plt.hist(timestamps, bins=bins, edgecolor='black')
+plt.title('Timeline of Events')
+plt.xlabel('Timestamp (Seconds from Boot)')
+plt.ylabel('Number of Events')
+plt.show()
 
 # Plot MSE for each dataset
 #plt.figure(figsize=(10, 6))
@@ -113,6 +113,7 @@ test_mse = mean_squared_error(y_test, y_test_pred)
 #plt.ylabel('MSE')
 #plt.show()
 
+'''
 sns.kdeplot(train_data['evil'], label='Train')
 sns.kdeplot(valid_data['evil'], label='Validation')
 sns.kdeplot(test_data['evil'], label='Test')
@@ -121,3 +122,4 @@ plt.title('Density Plot of evil')
 plt.xlabel('Value')
 plt.ylabel('Density')
 plt.show()
+'''
