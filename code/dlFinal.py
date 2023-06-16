@@ -10,8 +10,8 @@ from sklearn.preprocessing import LabelEncoder
 # Hyper - Parameters and dataset size definition 
 dataset_size = 8000
 split_percent = int(dataset_size * 0.2)
-defined_hidden_size = 256 #64, 128, 256 -> from paper
-defined_learning_rate = 0.00003 #0.003, 0.0003, 0.00003 -> from paper
+defined_hidden_size = 64 #64, 128, 256 -> from paper
+defined_learning_rate = 0.003 #0.003, 0.0003, 0.00003 -> from paper
 defined_weight_decay = 0.1 #0, 0.01, 0.1 -> from paper
 
 # Load the datasets
