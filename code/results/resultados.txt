@@ -46,3 +46,21 @@ MLP Validation Accuracy: 0.9923076923076923
 MLP Test Accuracy: 0.8451282051282051
 ------
 
+I have developed some changes on hyperparameters and the number of epochs.
+Currently I'm using 2 approaches, one with 2 shallow models(SVM and MLP) and the other with 2 deep leraning models(LSTM and GRU).
+I'm getting the results faster on both shallow models than on the deep learning models. Is it normal? 
+
+
+Yes, it's completely normal and expected. Here's why:
+
+Model Complexity: Deep learning models, like LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit), are significantly more complex than shallow models, such as SVM (Support Vector Machines) and MLP (Multi-Layer Perceptron).
+
+The complexity of LSTM and GRU models arise due to their recurrent nature and ability to model temporal dependencies. This complexity means more parameters to learn and thus longer training times.
+
+Training Process: The training process of deep learning models typically involves propagating errors back through many layers and updating a large number of weights. This is computationally expensive and takes longer. In contrast, SVMs are typically trained using convex optimization techniques that converge more quickly, and MLPs, while they still involve backpropagation, usually have fewer layers and parameters to tune.
+
+Data Size: Deep learning models, particularly those involving recurrent structures, often require larger datasets to train effectively without overfitting. They're designed to identify and learn high-level features in large datasets. Shallow models, on the other hand, can often give satisfactory results with much smaller datasets.
+
+Hardware: Deep learning models, due to their large number of parameters and high computational requirements, often benefit significantly from being trained on hardware accelerators like GPUs or TPUs. If you're training on a CPU, deep learning models will tend to be significantly slower.
+
+Remember, faster doesn't necessarily mean better. While SVMs and MLPs might train faster, deep learning models like LSTM and GRU may be able to provide better performance, particularly on more complex tasks or larger, high-dimensional datasets. It's all about finding the right tool for the job.
