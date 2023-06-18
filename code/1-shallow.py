@@ -9,27 +9,28 @@ from sklearn.metrics import roc_auc_score, roc_curve
 
 
 # Hyperparameters and dataset size definition
-dataset_size = 8000
+dataset_size = 10000
 split_percent = int(dataset_size * 0.2)
 
 #SVM
 C = 1.0
 kernel = 'rbf'
+defined_consecute_observations = 50
 
 # Load the datasets
-columns_to_use = ["processId", "parentProcessId", "userId", "mountNamespace", "eventId", "argsNum", "returnValue", "sus", "evil"]
-train_data = pd.read_csv('../labelled_training_data.csv', usecols=columns_to_use) #, nrows=8000)
-val_data = pd.read_csv('../labelled_validation_data.csv', usecols=columns_to_use) #, nrows=2000)
-test_data = pd.read_csv('../labelled_testing_data.csv', usecols=columns_to_use) #, nrows=2000)
+columns_to_use = ["processId", "parentProcessId", "userId", "mountNamespace", "eventId", "argsNum", "returnValue", "sus"] # "evil"
+train_data = pd.read_csv('../labelled_training_data.csv', usecols=columns_to_use, nrows=dataset_size)
+val_data = pd.read_csv('../labelled_validation_data.csv', usecols=columns_to_use, nrows=split_percent)
+test_data = pd.read_csv('../labelled_testing_data.csv', usecols=columns_to_use, nrows=split_percent)
 
-train_data = train_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-train_data = train_data.head(dataset_size)
+#train_data = train_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#train_data = train_data.head(dataset_size)
 
-val_data = val_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-val_data = val_data.head(split_percent)
+#val_data = val_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#val_data = val_data.head(split_percent)
 
-test_data = test_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-test_data = test_data.head(split_percent)
+#test_data = test_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#test_data = test_data.head(split_percent)
 
 # Define a function for preprocessing
 def preprocess(data):
@@ -42,21 +43,21 @@ def preprocess(data):
 
     # Apply label encoding for specific columns that are not numerical
     le = LabelEncoder()
-    columns_to_encode = ['sus', 'evil', 'eventId', 'argsNum']
+    columns_to_encode = ['sus', 'eventId', 'argsNum'] #'evil', 
     for column in columns_to_encode:
         data[column] = le.fit_transform(data[column])
 
     # Normalize 'eventId' and 'argsNum'
-    scaler = MinMaxScaler()
-    data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
+    #scaler = MinMaxScaler()
+    #data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
     
     return data
 
 # Function to convert DataFrames to sequences
 def df_to_sequences(data):
-    sequences = [data[i-50:i].values for i in range(50, len(data))]
+    sequences = [data[i-defined_consecute_observations:i].values for i in range(defined_consecute_observations, len(data))]
     X = np.array([seq.reshape(-1) for seq in sequences])
-    y = data['sus'][50:].values
+    y = data['sus'][defined_consecute_observations:].values
     return X, y
 
 # Preprocess the datasets
@@ -71,7 +72,7 @@ X_test, y_test = df_to_sequences(test_data)
 
 
 # Define the SVM model
-model_svm = SVC(kernel=kernel, C=C, probability=True, random_state=42, verbose=True)
+model_svm = SVC(kernel=kernel, C=C, probability=True, random_state=42, verbose=False)
 
 
 # Train the SVM model

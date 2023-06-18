@@ -2,34 +2,34 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, GRU
+from tensorflow.keras.layers import Dense, GRU
 from tensorflow.keras.optimizers import AdamW
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import roc_auc_score, roc_curve
-import numpy as np
 
 # Hyper - Parameters and dataset size definition 
-dataset_size = 8000
+dataset_size = 10000
 split_percent = int(dataset_size * 0.2)
-defined_hidden_size = 64 #64, 128, 256 -> from paper
+defined_hidden_size = 256 #64, 128, 256 -> from paper
 defined_learning_rate = 0.003 #0.003, 0.0003, 0.00003 -> from paper
 defined_weight_decay = 0.1 #0, 0.01, 0.1 -> from paper
+defined_consecute_observations = 50
 
 # Load the datasets
-columns_to_use = ["processId", "parentProcessId", "userId", "mountNamespace", "eventId", "argsNum", "returnValue", "sus", "evil"]
-train_data = pd.read_csv('../labelled_training_data.csv', usecols=columns_to_use) #, nrows=8000)
-val_data = pd.read_csv('../labelled_validation_data.csv', usecols=columns_to_use) #, nrows=2000)
-test_data = pd.read_csv('../labelled_testing_data.csv', usecols=columns_to_use) #, nrows=2000)
+columns_to_use = ["processId", "parentProcessId", "userId", "mountNamespace", "eventId", "argsNum", "returnValue", "sus"] #, "evil"
+train_data = pd.read_csv('../labelled_training_data.csv', usecols=columns_to_use, nrows=dataset_size)
+val_data = pd.read_csv('../labelled_validation_data.csv', usecols=columns_to_use, nrows=split_percent)
+test_data = pd.read_csv('../labelled_testing_data.csv', usecols=columns_to_use, nrows=split_percent)
 
-train_data = train_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-train_data = train_data.head(dataset_size)
+#train_data = train_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#train_data = train_data.head(dataset_size)
 
-val_data = val_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-val_data = val_data.head(split_percent)
+#val_data = val_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#val_data = val_data.head(split_percent)
 
-test_data = test_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-test_data = test_data.head(split_percent)
+#test_data = test_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
+#test_data = test_data.head(split_percent)
 
 
 # Define a function for preprocessing
@@ -43,21 +43,21 @@ def preprocess(data):
 
     # Apply label encoding for specific columns that are not numerical
     le = LabelEncoder()
-    columns_to_encode = ['sus', 'evil', 'eventId', 'argsNum']
+    columns_to_encode = ['sus', 'eventId', 'argsNum'] #, 'evil'
     for column in columns_to_encode:
         data[column] = le.fit_transform(data[column])
 
     # Normalize 'eventId' and 'argsNum'
-    scaler = MinMaxScaler()
-    data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
+    #scaler = MinMaxScaler()
+    #data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
     
     return data
 
 # Function to convert DataFrames to sequences
 def df_to_sequences(data):
-    sequences = [data[i-50:i].values for i in range(50, len(data))]
+    sequences = [data[i-defined_consecute_observations:i].values for i in range(defined_consecute_observations, len(data))]
     X = pad_sequences(sequences)
-    y = data['sus'][50:]
+    y = data['sus'][defined_consecute_observations:]
     return X, y
 
 # Preprocess the datasets

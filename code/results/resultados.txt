@@ -64,3 +64,21 @@ Data Size: Deep learning models, particularly those involving recurrent structur
 Hardware: Deep learning models, due to their large number of parameters and high computational requirements, often benefit significantly from being trained on hardware accelerators like GPUs or TPUs. If you're training on a CPU, deep learning models will tend to be significantly slower.
 
 Remember, faster doesn't necessarily mean better. While SVMs and MLPs might train faster, deep learning models like LSTM and GRU may be able to provide better performance, particularly on more complex tasks or larger, high-dimensional datasets. It's all about finding the right tool for the job.
+
+
+----------
+
+dataset_size = 10000
+defined_hidden_size = 256
+defined_learning_rate = 0.003
+defined_weight_decay = 0.1
+GRU Test AUROC: 0.5387727044390979
+
+-
+
+dataset_size = 10000
+defined_hidden_size = 64
+defined_learning_rate = 0.003
+defined_weight_decay = 0.1
+GRU Test AUROC: 0.4903 -> péssimo
+
