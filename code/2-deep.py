@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import roc_auc_score, roc_curve
 
 # Hyper - Parameters and dataset size definition 
-dataset_size = 10000
+dataset_size = 12000
 split_percent = int(dataset_size * 0.2)
 defined_hidden_size = 256 #64, 128, 256 -> from paper
 defined_learning_rate = 0.003 #0.003, 0.0003, 0.00003 -> from paper
@@ -21,16 +21,6 @@ columns_to_use = ["processId", "parentProcessId", "userId", "mountNamespace", "e
 train_data = pd.read_csv('../labelled_training_data.csv', usecols=columns_to_use, nrows=dataset_size)
 val_data = pd.read_csv('../labelled_validation_data.csv', usecols=columns_to_use, nrows=split_percent)
 test_data = pd.read_csv('../labelled_testing_data.csv', usecols=columns_to_use, nrows=split_percent)
-
-#train_data = train_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-#train_data = train_data.head(dataset_size)
-
-#val_data = val_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-#val_data = val_data.head(split_percent)
-
-#test_data = test_data.sample(frac=1, random_state=42)  # Shuffle the rows randomly
-#test_data = test_data.head(split_percent)
-
 
 # Define a function for preprocessing
 def preprocess(data):
