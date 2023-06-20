@@ -82,3 +82,15 @@ defined_learning_rate = 0.003
 defined_weight_decay = 0.1
 GRU Test AUROC: 0.4903 -> péssimo
 
+--------------------
+
+256
+0.003
+0.1
+GRU Test AUROC: 0.7689438131797959 / GRU Test AUROC: 0.9016817437281774
+-> 0.866
+
+64
+0.003
+0.1
+GRU Test AUROC: 0.7911222951499167 / GRU Test AUROC: 0.7311182554302144

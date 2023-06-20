@@ -1,5 +1,4 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, GRU
@@ -9,7 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import roc_auc_score, roc_curve
 
 # Hyper - Parameters and dataset size definition 
-dataset_size = 12000
+dataset_size = 10000
 split_percent = int(dataset_size * 0.2)
 defined_hidden_size = 256 #64, 128, 256 -> from paper
 defined_learning_rate = 0.003 #0.003, 0.0003, 0.00003 -> from paper
@@ -37,10 +36,6 @@ def preprocess(data):
     for column in columns_to_encode:
         data[column] = le.fit_transform(data[column])
 
-    # Normalize 'eventId' and 'argsNum'
-    #scaler = MinMaxScaler()
-    #data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
-    
     return data
 
 # Function to convert DataFrames to sequences
@@ -59,7 +54,6 @@ test_data = preprocess(test_data)
 X_train, y_train = df_to_sequences(train_data)
 X_val, y_val = df_to_sequences(val_data)
 X_test, y_test = df_to_sequences(test_data)
-
 
 # Define the GRU model
 model_gru = Sequential()
@@ -95,19 +89,3 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver Operating Characteristic')
 plt.legend(loc="lower right")
 plt.show()
-
-'''
-# Plot GRU accuracy
-plt.figure(figsize=(12,6))
-plt.plot(history_gru.history['accuracy'])
-plt.plot(history_gru.history['val_accuracy'])
-plt.title('GRU Model Accuracy')
-plt.xlabel('Epoch')
-plt.ylabel('Accuracy')
-plt.legend(['Train', 'Validation'])
-plt.show()
-
-# Evaluate GRU model
-gru_results = model_gru.evaluate(X_test, y_test)
-print(f"GRU Test Loss: {gru_results[0]}, GRU Test Accuracy: {gru_results[1]}")
-'''

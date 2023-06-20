@@ -1,15 +1,12 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score, roc_curve
 
-
 # Hyperparameters and dataset size definition
-dataset_size = 12000
+dataset_size = 10000
 split_percent = int(dataset_size * 0.2)
 
 #SVM
@@ -38,10 +35,6 @@ def preprocess(data):
     for column in columns_to_encode:
         data[column] = le.fit_transform(data[column])
 
-    # Normalize 'eventId' and 'argsNum'
-    #scaler = MinMaxScaler()
-    #data[['eventId', 'argsNum']] = scaler.fit_transform(data[['eventId', 'argsNum']])
-    
     return data
 
 # Function to convert DataFrames to sequences
@@ -61,10 +54,8 @@ X_train, y_train = df_to_sequences(train_data)
 X_val, y_val = df_to_sequences(val_data)
 X_test, y_test = df_to_sequences(test_data)
 
-
 # Define the SVM model
 model_svm = SVC(kernel=kernel, C=C, probability=True, random_state=42, verbose=False)
-
 
 # Train the SVM model
 model_svm.fit(X_train, y_train)
@@ -90,11 +81,3 @@ plt.ylabel('True Positive Rate')
 plt.title('Receiver Operating Characteristic')
 plt.legend(loc="lower right")
 plt.show()
-
-# Evaluate SVM model
-#svm_train_pred = model_svm.predict(X_train)
-#svm_val_pred = model_svm.predict(X_val)
-#svm_test_pred = model_svm.predict(X_test)
-#print(f"SVM Train Accuracy: {accuracy_score(y_train, svm_train_pred)}")
-#print(f"SVM Validation Accuracy: {accuracy_score(y_val, svm_val_pred)}")
-#print(f"SVM Test Accuracy: {accuracy_score(y_test, svm_test_pred)}")
