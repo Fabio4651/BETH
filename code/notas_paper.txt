@@ -1,0 +1,64 @@
+1. A problem statement.
+2. Data processing (data pre-processing, data splitting) used, etc.
+3. Models used. You should use one shallow and a deep-learning model.
+4. Training algorithm(s) employed, including hyperparameters selection.
+5. Results obtained and discussed.
+6. Comparison of your results with the ones in the paper.
+7. Conclusions
+8. References
+----
+
+1) Apresentação do dataset BETH (como é constituido (tem falhas, mostrar print do 1*, mostrar também print 2*), quem o criou, para que efeitos (corre em 23honeypots, docker Linux OS (não mencionou em especifico qual), com vulnerabilidade ssh para aceitar todos os logins))
+Temos como objectivo classificar eventos como normais, suspeitos ou evil.
+
+2) (falar muito neste ponto no relatorio e na apresentacao) - é o ponto chave neste problema (mencionar isto)
+Enunciar a questão do data splitting de 60/20/20 tal como no paper original.
+Porque para conseguir um bom input para o modelo, os dados devem estar pre-processados correctamente e com regras bem definidas.
+Estas regras foram enunciadas no paper original e usámos estas regras no nosso modelo.
+Mostrar as diferentes colunas dos datasets e salientar as que vamos utilizar.
+Vamos usar "processId", "parentProcessId", "userId", "mountNamespace", "eventId", "argsNum", "returnValue", "sus", "evil", e indicar o porquê de cada uma delas.
+(se tivermos tempo, podemos também indicar o porquê de não usar alguma das outras colunas)
+
+3) (falar que como não temos em consideração os tempos das ocorrencias, podemos usar algoritmos que não relacionam dados temporais)
+no nosso approach, usamos 2 algoritmos para shallow, e outros 2 para dl.
+para shallow foi o SVM e o MLP, para dl foi o LSTM e o GRU
+para ambos os modelos shallow e dl, comparámos resultados e para o nosso caso, com os diferentes testes efetuados, os melhores resultados foram obtidos com os algoritmos MLP(shallow) e GRU(deep learning)
+
+4) tendo como base o paper original, usámos como algoritmos de treino o adam como optimizador de treino e os mesmos hyperparameters. que são: 3*
+
+5) tratando.se de um modelo não "time series" foram obtidos os melhores valores com os algorimos MLP e GRU tal como mencionado anteriormente.
+texto possível para colocarmos:
+
+Both models have high accuracy on the training set, which is expected since the models are trained on this data.
+
+For the test set, which is more indicative of how the model will perform on unseen data, the MLP has a higher accuracy (84.5%) than the SVM (83.7%).
+This suggests that the MLP might be the better model, as it performs slightly better on the unseen data.
+The same for the Deep Learning algoritms, where the lower the loss and the higher the accuracy, the better the model's performance.
+As seen on the Figure x,y,z (4*) the GRU as better performance on the same model.
+
+Podemos indicar que os algoritmos shallow foram mais rapidos em apresentar resultados, isto porque:
+Model Complexity: Deep learning models, like LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit), are significantly more complex than shallow models, such as SVM (Support Vector Machines) and MLP (Multi-Layer Perceptron).
+
+The complexity of LSTM and GRU models arise due to their recurrent nature and ability to model temporal dependencies. This complexity means more parameters to learn and thus longer training times.
+
+Training Process: The training process of deep learning models typically involves propagating errors back through many layers and updating a large number of weights. This is computationally expensive and takes longer. In contrast, SVMs are typically trained using convex optimization techniques that converge more quickly, and MLPs, while they still involve backpropagation, usually have fewer layers and parameters to tune.
+
+Data Size: Deep learning models, particularly those involving recurrent structures, often require larger datasets to train effectively without overfitting. They're designed to identify and learn high-level features in large datasets. Shallow models, on the other hand, can often give satisfactory results with much smaller datasets.
+
+6) dado que os algoritmos usados no paper não foram iguais aos utilizados por nós não é possível uma comparação directa de valores.
+No entanto os modelos desenvolvidos apresentam uma boa resposta para o objectivo pretendido (classificar o tipo de evento ocorrido)
+(TODO: rui vai tentar desenvolver um metodo para analisar o AUROC de cada algoritmo para comparar aos do paper) - se conseguir desenvolver apresentamos as comparações senão, não é possivel comparar
+
+7) conclusões:
+o nosso dataset é muito grande e era demasiado dispendioso (em termos de tempo e computacional) em avaliar o dataset completo. Desta forma dividimos cada dataset numa percentagem. desta forma não avaliamos os 700k records mas sim apenas uma percentagem (uma amostra - by fabio).
+ainda assim, dado que não existe muita discrepancia entre dados enviados para treino, dado o pre processamento dos dados em transformar quase todos os campos em binário, quando é avaliado o modelo, ou mesmo testado, não há uma grande aprendizagem, causando overfitting (TODO: rui explicar a situação do overfitting do modelo de dados)
+
+
+8) Referencias , paper e link do github
+
+
+----
+1* - Table 1. General characteristics of the kernel-process logs, including our initial benchmark subset;
+2* - Imagem gerada por nós para perceber a distribuição de dados nos diferentes datasets (train, val, test) - Esta distribuição mostra a quantidade de SUS e EVIL em cada 1 dos datasets; mostrar gráficos e tabelas( ideia em https://www.kaggle.com/code/br0kej/beth-eda-processing-and-model-training )
+3* - hyperparameters e comportamentos na descrição em: "D. Model & Training Details" - paper original
+4* - mostrar gráficos com os diferentes comportamentos do GRU vs LSTM ( 2 linhas com accuracy vs loss) nos diferentes hyperparameters

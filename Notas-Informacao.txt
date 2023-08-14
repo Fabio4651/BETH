@@ -1,0 +1,28 @@
+Exploratory Data Analysis (EDA): Involves understanding the data by summarizing its main characteristics, often using visual methods. It's an approach to analyze datasets to summarize their main characteristics, often using statistical graphics and other data visualization methods.
+
+-------------------------
+
+Epochs and batch size are key hyperparameters in training a neural network.
+
+Epochs: An epoch refers to one cycle through the full training dataset. In other words, an epoch is comprised of one forward pass and one backward pass of all the training examples. During this process, the model's weights are updated to minimize the loss function. The number of epochs is a hyperparameter that determines how many times the learning algorithm will cycle through the entire training dataset. If you set the number of epochs too low, then the model might underfit the data (i.e., it could have high bias). If you set the number of epochs too high, then the model might overfit the data (i.e., it could have high variance), as it starts to learn the noise in the training data.
+
+Batch Size: The batch size is a number of samples processed before the model is updated. The size of a batch must be more than or equal to one and less than or equal to the number of samples in the training dataset. The batch size can affect the model's ability to converge and the speed of convergence:
+
+A smaller batch size (such as 1, also known as online learning) means that the weights are updated more frequently, which can lead to faster convergence, but the error surface (and hence the path to convergence) is noisier.
+A larger batch size means that the weights are updated less frequently (with more stable, less noisy gradient estimates), but convergence might be slower.
+"Mini-batch" sizes, typically between 10 and 1,000, are most commonly used, as they can benefit from vectorized operations and parallel processing hardware like GPUs, while still providing a reasonable amount of noise to escape shallow local minima of the error surface.
+Choosing appropriate values for these parameters requires some experimentation. You may need to try several different values to find the best ones for your specific problem and model.
+
+----------------------------
+
+The performance of machine learning models (including both shallow models and deep learning models) is dependent on several factors such as:
+
+Complexity of the task: If the task is relatively simple, a shallow model may perform better because it has just the right amount of flexibility to capture the patterns in the data without overfitting. If the task is more complex, a deep learning model may perform better because it has more flexibility to capture complex patterns. However, this also means that deep learning models are more prone to overfitting if not properly regularized or if they are trained on small datasets.
+
+Amount of data: Deep learning models generally perform better when they have a lot of data to learn from. If your dataset is relatively small, a shallow model may perform better simply because it's less likely to overfit to the small amount of data.
+
+Data representation: Deep learning models, especially those with convolutional or recurrent layers, can automatically extract complex features from raw data, which is a significant advantage when dealing with unstructured data like images or text. However, if your data is already represented with meaningful features (like in a structured dataset), shallow models may perform just as well or even better.
+
+Hyperparameters and architecture: The architecture of your model (how many layers it has, how many units per layer, what type of layers, etc.) and the choice of hyperparameters (learning rate, batch size, number of epochs, etc.) can greatly affect the performance of your model. A poorly chosen architecture or poorly tuned hyperparameters can make a deep learning model perform worse than a shallow model.
+
+-------------------------------

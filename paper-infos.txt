@@ -1,0 +1,72 @@
+4. Training algorithm(s) employed, including hyperparameters selection.
+
+The main algorithm for training an SVM is a method called Sequential Minimal Optimization (SMO). It's an iterative algorithm for solving the quadratic programming (QP) problem that arises during the training of SVMs.
+
+The key hyperparameters for our SVM model are C and kernel. C is a regularization parameter that controls the trade-off between achieving a low training error and a low testing error that is the balance between overfitting and underfitting. In our case, C is set to 1.0 (as default).
+
+The kernel parameter can take several values like 'linear', 'poly', 'rbf', 'sigmoid', etc. It's the function used to map the lower dimensional data into a higher dimensional space to make it possible to perform the linear separation. In our case, 'rbf' (Radial basis function) is used as the kernel which is useful for non-linear hyperplane.
+
+The other parameter defined_consecute_observations is used for sequencing our data to feed into the model. It's not an SVM hyperparameter but more of a data preprocessing step. Also this parameter is used on the GRU model too.
+
+
+For the GRU model, the key hyperparameters include:
+
+The defined_hidden_size parameter, which refers to the number of units in the GRU layer.
+
+defined_learning_rate is the step size at each iteration while moving toward a minimum of a loss function.
+
+defined_weight_decay is a regularization term that discourages learning a more complex or flexible model, so as to avoid the risk of overfitting.
+
+defined_consecute_observations is the sequence length for the input data. It's similar to what was used in SVM but here it's an important aspect of shaping the input for our RNN.
+
+The activation functions for the GRU and Dense layer are 'relu' and 'sigmoid'. These functions introduce non-linear properties to the model. The 'relu' is used to add non-linearity and the 'sigmoid' is used to map predicted values to probabilities.
+
+In our GRU model, we have used AdamW optimizer which is an Adam optimizer with weight decay.
+
+
+-----
+5. Results obtained and discussed.
+
+As the results on the orinal paper was in form of a AUROC table, we needed to take into consideration the same approach, measuring our models performance with AUROC values.
+
+Performance (AUROC): We noted that the SVM had a higher AUROC (0.866) compared to the GRU (0.769). This indicates that the SVM model was more successful at distinguishing between the positive and negative classes in our binary classification task. This is important to highlight, as higher AUROC values indicate better model performance.
+
+Speed: We observed that the SVM model was faster to train than the GRU model. This is generally expected as SVMs are computationally less intensive than deep learning models like GRUs, especially if the dataset is not very large. Moreover, GRUs require multiple epochs (iterations over the entire dataset) which also contributes to the longer training time.
+
+Complexity: GRU models involve more complex computations and have more hyperparameters to tune compared to SVMs.
+
+Impact of hyperparameters: we have observed that reducing the number of hidden layers in the GRU model resulted in worse performance. This is a valuable insight into how this particular hyperparameter impacts our model.
+
+Data size: We have used only a subset of the data due to time and resource constraints. The size of the training data can significantly impact the performance of the models, especially in the case of deep learning models like GRUs, which often benefit from larger datasets.
+
+Those results were an average of results from the different execution of the models.
+Also, it's important to keep in mind than we only used a subset of the entire dataset, because running only a single time the GRU model, it costs more than 24 hours of heavy execution. This problem was also faced and documented by the authors of the BETH dataset.
+
+----
+
+6. Comparison of your results with the ones in the paper.
+
+Assuming the different models from the original paper, and the provided AUROC table, both our models were close to the original paper.
+
+According to achievements, our implementation of the SVM model outperformed the AUROC results documented in the original paper. 
+On the other hand, the GRU model underperformed in comparison to all the models discussed in the original paper. This could be because the smaller size of our dataset.
+
+Hyperparameter Tuning: In our study with tuning the hyperparameters we experimented different settings, including using the hyperparameters from the original paper. According to the SVM model, the kernel hyperparameter doesn't seem's to modify heavily the results. According to the GRU, lowering the value of the number of hidden layers, could provide lower AUROC values. Besides that, the learning rate and weight decay used on paper, was also used on our study, and we achieved the better results with learning rate as 0.003 and weight decay as 0.1.
+
+----
+
+7. Conclusions
+
+In this study, we explored the efficacy of two distinct models, Support Vector Machines (SVM) and Gated Recurrent Units (GRU), for our specific task. Our findings were intriguing, revealing substantial differences in performance between the two models.
+
+Specifically, the SVM model significantly outperformed the GRU model, yielding an impressive AUROC score in average of 0.866. Remarkably, this result surpassed those reported in the original paper, suggesting that SVMs can be highly effective tools for this type of classification task.
+
+In contrast, the GRU model's performance was found to be subpar, with an AUROC score in average of 0.769, even when using hyperparameters from the original paper. This could potentially be due to the complex nature of deep learning models like GRUs, which might require larger datasets and more computational resources.
+
+We recognize the limitations of our study, most notably the constraint of working with a subset of the full dataset due to time and resource limitations. This might have particularly influenced the performance of the GRU model, as such models often benefit from larger datasets for better generalization.
+
+For future work, it would be interesting to experiment with the full dataset and explore various deep learning architectures. Moreover, further optimization of hyperparameters could potentially yield more promising results.
+
+Despite the limitations and the mixed results, this research presents valuable insights into the comparative performance of SVM and GRU models in this context. The observed differences underline the importance of careful model selection and hyperparameter tuning, offering useful directions for future research. The superior performance of the SVM model highlights its potential for this type of task, while the underperformance of the GRU model emphasizes the need for further exploration and optimization of deep learning models in this domain.
+
+

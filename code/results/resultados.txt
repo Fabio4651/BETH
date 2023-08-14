@@ -1,0 +1,76 @@
+DEEP LEARNING MODELS:
+- The lower the loss and the higher the accuracy, the better the model's performance.
+
+--
+
+(with 1% of randomized data)
+defined_hidden_size = 64
+defined_learning_rate = 0.003
+defined_weight_decay = 0
+LSTM Test Loss: 3.9615869522094727, LSTM Test Accuracy: 0.5307692289352417
+GRU Test Loss: 0.4130866527557373, GRU Test Accuracy: 0.8948717713356018
+
+--
+
+(with 1% of randomized data)
+defined_hidden_size = 256
+defined_learning_rate = 0.00003
+defined_weight_decay = 0.1
+LSTM Test Loss: 490.0578308105469, LSTM Test Accuracy: 0.09589743614196777
+GRU Test Loss: 11.779857635498047, GRU Test Accuracy: 0.09589743614196777
+
+--
+
+(with 10% of randomized data)
+defined_hidden_size = 256
+defined_learning_rate = 0.00003
+defined_weight_decay = 0.1
+LSTM Test Loss: 5.949862003326416, LSTM Test Accuracy: 0.09323308616876602
+GRU Test Loss: 5.671755790710449, GRU Test Accuracy: 0.09323308616876602
+----------
+|||||
+----------
+
+SHALLOW MODELS:
+Both models have high accuracy on the training set, which is expected since the models are trained on this data.
+For the test set, which is more indicative of how the model will perform on unseen data, the MLP has a higher accuracy (84.5%) than the SVM (83.7%).
+This suggests that the MLP might be the better model, as it performs slightly better on the unseen data.
+
+(1% de dados c/ hyperparameters base)
+SVM Train Accuracy: 1.0
+SVM Validation Accuracy: 0.9887179487179487
+SVM Test Accuracy: 0.8374358974358974
+
+MLP Train Accuracy: 0.999748427672956
+MLP Validation Accuracy: 0.9923076923076923
+MLP Test Accuracy: 0.8451282051282051
+------
+
+----------
+
+dataset_size = 10000
+defined_hidden_size = 256
+defined_learning_rate = 0.003
+defined_weight_decay = 0.1
+GRU Test AUROC: 0.5387727044390979
+
+-
+
+dataset_size = 10000
+defined_hidden_size = 64
+defined_learning_rate = 0.003
+defined_weight_decay = 0.1
+GRU Test AUROC: 0.4903 -> péssimo
+
+--------------------
+
+256
+0.003
+0.1
+GRU Test AUROC: 0.7689438131797959 / GRU Test AUROC: 0.9016817437281774
+-> 0.866
+
+64
+0.003
+0.1
+GRU Test AUROC: 0.7911222951499167 / GRU Test AUROC: 0.7311182554302144
