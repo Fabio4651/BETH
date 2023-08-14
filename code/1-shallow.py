@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score, roc_curve
 
 # Hyperparameters and dataset size definition
-dataset_size = 10000
+dataset_size = 8000
 split_percent = int(dataset_size * 0.2)
 
 #SVM
